@@ -44,13 +44,13 @@ def transcribe_audio():
 # Get GPT response
 def ask_chatgpt(question):
     response = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=[
-            system_prompt,
-            {"role": "user", "content": question}
-        ]
-    )
-    return response['choices'][0]['message']['content']
+    model="gpt-4",
+    messages=[
+        system_prompt,
+        {"role": "user", "content": question}
+    ]
+)
+return response['choices'][0]['message']['content']
 
 # Convert text to speech
 def text_to_speech(text):
