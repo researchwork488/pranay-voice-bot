@@ -38,7 +38,7 @@ def transcribe_audio():
         return recognizer.recognize_google(audio)
     except Exception as e:
         st.warning(f"⚠️ Voice input failed: {e}")
-        st.info("Mic not available or not working. Please use text input below 👇")
+        st.info("Mic not available or not working. Please use text input")
         return None
 
 # Ask GPT using new API
