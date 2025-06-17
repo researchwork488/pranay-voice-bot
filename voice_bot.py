@@ -43,7 +43,7 @@ def transcribe_audio():
 
 # Get GPT response
 def ask_chatgpt(question):
-    response = openai.ChatCompletion.create(
+   response = openai.ChatCompletion.create(
     model="gpt-4",
     messages=[
         system_prompt,
