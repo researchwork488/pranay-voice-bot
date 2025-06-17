@@ -1,17 +1,17 @@
 import streamlit as st
-import openai
+from openai import OpenAI
 import speech_recognition as sr
 from gtts import gTTS
 import tempfile
 import os
 
-# Load your OpenAI key securely
-openai.api_key = st.secrets["OPENAI_API_KEY"]
+# Initialize OpenAI client with latest SDK syntax
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 st.set_page_config(page_title="Pranay Voice Bot")
 st.title("🎙️ Pranay's Voice Bot")
 
-# Natural personality prompt for Pranay
+# Personality prompt (based on your real resume)
 system_prompt = {
     "role": "system",
     "content": (
@@ -27,7 +27,7 @@ system_prompt = {
     )
 }
 
-# Voice input function
+# Voice input using microphone
 def transcribe_audio():
     recognizer = sr.Recognizer()
     mic = sr.Microphone()
@@ -41,43 +41,42 @@ def transcribe_audio():
     except sr.RequestError:
         return "Speech recognition service is down."
 
-# Get GPT response
+# Ask ChatGPT using latest OpenAI SDK
 def ask_chatgpt(question):
-   response = openai.ChatCompletion.create(
-    model="gpt-4",
-    messages=[
-        system_prompt,
-        {"role": "user", "content": question}
-    ]
-)
-    return response['choices'][0]['message']['content']
+    response = client.chat.completions.create(
+        model="gpt-4",
+        messages=[
+            system_prompt,
+            {"role": "user", "content": question}
+        ]
+    )
+    return response.choices[0].message.content
 
-# Convert text to speech
+# Convert GPT response to speech
 def text_to_speech(text):
     tts = gTTS(text=text, lang='en', slow=False)
     temp_audio = tempfile.mktemp(suffix=".mp3")
     tts.save(temp_audio)
     return temp_audio
 
-# Input method options
+# Input section (Voice + Text fallback)
 col1, col2 = st.columns(2)
+
 with col1:
-    if st.button("🎤 Ask by Voice"):
-        user_input = transcribe_audio()
-    else:
-        user_input = None
+    use_voice = st.button("🎤 Ask by Voice")
+    user_input = transcribe_audio() if use_voice else None
 
 with col2:
     user_input_text = st.text_input("Or type your question here:")
     if user_input_text:
         user_input = user_input_text
 
-# Generate response if any input is given
+# Process input and generate response
 if user_input:
     st.subheader("You asked:")
     st.write(user_input)
 
-    with st.spinner("🤖 Generating response..."):
+    with st.spinner("🤖 Thinking..."):
         reply = ask_chatgpt(user_input)
         st.subheader("Pranay says:")
         st.write(reply)
