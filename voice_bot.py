@@ -50,7 +50,7 @@ def ask_chatgpt(question):
         {"role": "user", "content": question}
     ]
 )
-return response['choices'][0]['message']['content']
+    return response['choices'][0]['message']['content']
 
 # Convert text to speech
 def text_to_speech(text):
