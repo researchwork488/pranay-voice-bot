@@ -5,12 +5,12 @@ from gtts import gTTS
 import tempfile
 import os
 
-# Load your OpenAI key securely
+# Load OpenAI key securely
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 st.title("🎙️ Pranay's Voice Bot")
 
-# Natural personality prompt for Pranay
+# Personality prompt for Pranay
 system_prompt = {
     "role": "system",
     "content": (
@@ -40,7 +40,7 @@ def transcribe_audio():
     except sr.RequestError:
         return "Speech recognition service is down."
 
-# Get GPT response
+# Get response
 def ask_chatgpt(question):
     response = openai.ChatCompletion.create(
         model="gpt-4",
@@ -58,7 +58,7 @@ def text_to_speech(text):
     tts.save(temp_audio)
     return temp_audio
 
-# UI flow
+# UI
 if st.button("🎤 Start Recording"):
     user_input = transcribe_audio()
     st.subheader("You asked:")
