@@ -2,13 +2,21 @@ name: Ping Streamlit Voice Bot
 
 on:
   schedule:
-    - cron: '*/15 * * * *'  # Runs every 15 minutes
-  workflow_dispatch:        # Allows you to trigger it manually from GitHub
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
 
 jobs:
   ping-bot:
     runs-on: ubuntu-latest
     steps:
-      - name: Send request to Streamlit app
+      - name: Ping the Streamlit app and show response
         run: |
-          curl -s -o /dev/null -w "%{http_code}" https://pranay-voice-bot-vrwfvr7afwcxg2pazcsszq.streamlit.app
+          echo "Pinging your Streamlit app..."
+          response=$(curl -s -w "%{http_code}" -o response.txt https://pranay-voice-bot-vrwfvr7afwcxg2pazcsszq.streamlit.app)
+          echo "HTTP Status: $response"
+          echo "--- Response Body ---"
+          cat response.txt
+          if [ "$response" -ne 200 ]; then
+            echo "Ping failed: Bot is not returning HTTP 200"
+            exit 1
+          fi
