@@ -1,15 +1,14 @@
 name: Keep Streamlit App Awake
 
 on:
- schedule:
-  -cron: '*/15 * * * *'
+  schedule:
+    - cron: '*/15 * * * *'
   workflow_dispatch:
 
 jobs:
- ping:
-  runs-on: ubuntu-latest
-  steps:
-   - name: Ping Streamlit App
-    run: |
-      curl -s -o /dev/null -w'%{http_code}'
-https://pranay-voice-bot-vrwfvr7afwcxg2pazcsszq.streamlit.app
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Streamlit App
+        run: |
+          curl -s -o /dev/null -w '%{http_code}' https://pranay-voice-bot-vrwfvr7afwcxg2pazcsszq.streamlit.app
