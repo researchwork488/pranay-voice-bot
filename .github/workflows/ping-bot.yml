@@ -1,21 +1,26 @@
-name: Ping Pranay voice-bot
+name: Ping Streamlit App Every 15 Minutes
 
 on:
   schedule:
     - cron: "*/15 * * * *"  
-  workflow_dispatch:       
+  workflow_dispatch:        
 
 jobs:
   ping-app:
     runs-on: ubuntu-latest
+
     steps:
       - name: Ping Streamlit App
         run: |
           echo "Pinging Streamlit app..."
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://your-streamlit-app.streamlit.app)
+          APP_URL="https://your-streamlit-app.streamlit.app"  # 🔁 Replace with your actual URL
+          
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" $APP_URL)
+          echo "Received HTTP Status: $STATUS"
+
           if [ "$STATUS" -ne 200 ]; then
-            echo "App is down. Status code: $STATUS"
+            echo "❌ App is down or returned non-200 status. Failing the job."
             exit 1
           else
-            echo "App is up! Status code: $STATUS"
+            echo "✅ App is up and responding correctly!"
           fi
