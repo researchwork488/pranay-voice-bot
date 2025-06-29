@@ -1,4 +1,4 @@
-name: Ping Streamlit App Every 15 Minutes
+name: Ping Pranay voice bot
 
 on:
   schedule:
@@ -12,15 +12,16 @@ jobs:
     steps:
       - name: Ping Streamlit App
         run: |
-          echo "Pinging Streamlit app..."
+          echo "🔄 Pinging Streamlit app..."
           APP_URL="https://your-streamlit-app.streamlit.app"  # 🔁 Replace with your actual URL
-          
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" $APP_URL)
-          echo "Received HTTP Status: $STATUS"
+
+          # Follow redirects (-L), suppress output (-s), discard body (-o /dev/null), output status (%{http_code})
+          STATUS=$(curl -L -s -o /dev/null -w "%{http_code}" $APP_URL)
+          echo "🌐 Received HTTP Status: $STATUS"
 
           if [ "$STATUS" -ne 200 ]; then
-            echo "❌ App is down or returned non-200 status. Failing the job."
+            echo "❌ App is not returning 200 OK. Failing the job."
             exit 1
           else
-            echo "✅ App is up and responding correctly!"
+            echo "✅ App is up and responding with 200 OK!"
           fi
