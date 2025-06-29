@@ -3,11 +3,11 @@ name: Ping Bot
 on:
   workflow_dispatch:
   schedule:
-    - cron: '*/30 * * * *'
+    - cron: '*/15 * * * *'
 
 jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
       - name: Ping Streamlit App
-        run: curl https://example.com
+        run: curl https://pranay-voice-bot-vrwfvr7afwcxg2pazcsszq.streamlit.app
