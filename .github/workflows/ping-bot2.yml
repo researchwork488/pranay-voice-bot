@@ -1,0 +1,24 @@
+name: Ping Streamlit 2
+
+on:
+  schedule:
+    - cron: "*/10 * * * *" 
+  workflow_dispatch:
+
+jobs:
+  ping-app:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ping Streamlit App
+        run: |
+          echo "🔄 Pinging Streamlit app..."
+          APP_URL="https://your-streamlit-app.streamlit.app"  # Replace with your actual app URL
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$APP_URL")
+          echo "🌐 Received HTTP Status: $STATUS"
+          if [ "$STATUS" -eq 200 ] || [ "$STATUS" -eq 303 ]; then
+            echo "✅ App is up and responding with $STATUS"
+          else
+            echo "❌ App is down or not responding properly. Status: $STATUS"
+            exit 1
+          fi
