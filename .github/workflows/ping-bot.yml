@@ -1,4 +1,4 @@
-name: Ping Streamlit App Every 15 Minutes
+name: Ping Pranay voice-bot
 
 on:
   schedule:
