@@ -13,7 +13,7 @@ jobs:
       - name: Ping Streamlit App
         run: |
           echo "🔄 Pinging Streamlit app..."
-          APP_URL="https://your-streamlit-app.streamlit.app"  # Replace with your actual app URL
+          APP_URL="https://pranay-voice-bot-vrwfvr7afwcxg2pazcsszq.streamlit.app"
           STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$APP_URL")
           echo "🌐 Received HTTP Status: $STATUS"
           if [ "$STATUS" -eq 200 ] || [ "$STATUS" -eq 303 ]; then
